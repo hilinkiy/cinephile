@@ -18,7 +18,19 @@
             {{ type == "movie" ? current.title : current.name }}
           </h2>
           <p class="main__info-block-data-descr">
-            d
+            {{type == "movie" ? current.overview : `Информация не сериалам не прилагается`}}
+          </p>
+          <div class="main__info-block-data-descr">
+            {{type == "movie" ? `Вышла в ${current.release_date}` : `Первая серия вышла в ${current.first_air_date}`}}
+            <div v-for="genre in current.genres" :key="genre.id" class="genre-item">
+              {{type == "movie" ? genre.name : genre.name}}
+            </div>
+            <div class="genre-item">
+              {{type == "movie" ? `${current.runtime}m` : current.name}}
+            </div>
+          </div>
+          <p style="color: white">
+            {{current.seasons_count}}
           </p>
           <Actors :type="type" :id="current.id" :count="4" />
         </div>
@@ -49,6 +61,8 @@ const props = defineProps({
     typeof: String,
   },
 });
+
+console.log(props.current)
 </script>
 
 <style lang="scss">
@@ -123,6 +137,8 @@ const props = defineProps({
         font-size: 20px;
         font-weight: 400;
         line-height: 30px;
+        display: flex;
+        gap: 10px;
       }
 
       &-info {
